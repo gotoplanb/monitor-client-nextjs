@@ -1,21 +1,27 @@
-import { fetchMonitor } from '../../../utils/api';
+import { fetchMonitor, fetchMonitorHistory } from '../../../utils/api';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: { page?: string };
 }
 
-export default async function MonitorDetailPage({ params }: PageProps) {
+export default async function MonitorDetailPage({ params, searchParams }: PageProps) {
   try {
     const resolvedParams = await params;
     const id = parseInt(resolvedParams.id, 10);
+    const page = parseInt(searchParams.page || '1', 10);
+    const limit = 10;
     
     if (isNaN(id)) {
       notFound();
     }
 
-    const monitor = await fetchMonitor(id);
+    const [monitor, history] = await Promise.all([
+      fetchMonitor(id),
+      fetchMonitorHistory(id, page, limit)
+    ]);
 
     const stateColors = {
       Normal: 'bg-green-100 text-green-800',
@@ -42,7 +48,7 @@ export default async function MonitorDetailPage({ params }: PageProps) {
 
           <div className="space-y-4">
             <div>
-              <h2 className="text-lg font-semibold mb-2">Status Details</h2>
+              <h2 className="text-lg font-semibold mb-2">Current Status</h2>
               <p className="text-gray-600">
                 Last updated: {new Date(monitor.timestamp).toLocaleString()}
               </p>
@@ -59,6 +65,44 @@ export default async function MonitorDetailPage({ params }: PageProps) {
                     {tag}
                   </span>
                 ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-lg font-semibold mb-4">Status History</h2>
+              <div className="space-y-2">
+                {history.map((record, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center p-3 bg-gray-50 rounded"
+                  >
+                    <span className={`px-2 py-1 rounded-full text-sm ${stateColors[record.state]}`}>
+                      {record.state}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      {new Date(record.timestamp).toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 flex justify-center gap-2">
+                {page > 1 && (
+                  <Link
+                    href={`/monitor/${id}?page=${page - 1}`}
+                    className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                  >
+                    Previous
+                  </Link>
+                )}
+                {history.length === limit && (
+                  <Link
+                    href={`/monitor/${id}?page=${page + 1}`}
+                    className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                  >
+                    Next
+                  </Link>
+                )}
               </div>
             </div>
           </div>
