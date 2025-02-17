@@ -36,3 +36,23 @@ export async function fetchMonitor(id: number): Promise<Monitor> {
   }
   return response.json();
 }
+
+export async function fetchMonitorHistory(
+  id: number,
+  page: number = 1,
+  limit: number = 10
+): Promise<Monitor[]> {
+  if (!API_BASE_URL) {
+    throw new Error('API_BASE_URL environment variable is not set');
+  }
+  
+  const skip = (page - 1) * limit;
+  const response = await fetch(
+    `${API_BASE_URL}/api/v1/monitors/${id}/history/?skip=${skip}&limit=${limit}`
+  );
+  
+  if (!response.ok) {
+    throw new Error('Failed to fetch monitor history');
+  }
+  return response.json();
+}
