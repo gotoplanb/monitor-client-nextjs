@@ -12,7 +12,7 @@ export async function fetchMonitors(): Promise<Monitor[]> {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL environment variable is not set');
   }
-  
+
   const response = await fetch(`${API_BASE_URL}/api/v1/monitors/statuses/`);
   if (!response.ok) {
     throw new Error('Failed to fetch monitors');
@@ -21,7 +21,7 @@ export async function fetchMonitors(): Promise<Monitor[]> {
   // Add numeric IDs based on array position
   return monitors.map((monitor, index) => ({
     ...monitor,
-    id: index + 1
+    id: index + 1,
   }));
 }
 
@@ -29,7 +29,7 @@ export async function fetchMonitor(id: number): Promise<Monitor> {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL environment variable is not set');
   }
-  
+
   const response = await fetch(`${API_BASE_URL}/api/v1/monitors/${id}/state/`);
   if (!response.ok) {
     throw new Error('Failed to fetch monitor');
@@ -39,18 +39,17 @@ export async function fetchMonitor(id: number): Promise<Monitor> {
 
 export async function fetchMonitorHistory(
   id: number,
-  page: number = 1,
+  skip: number = 0,
   limit: number = 10
-): Promise<Monitor[]> {
+): Promise<{ items: Monitor[], total: number }> {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL environment variable is not set');
   }
-  
-  const skip = (page - 1) * limit;
+
   const response = await fetch(
     `${API_BASE_URL}/api/v1/monitors/${id}/history/?skip=${skip}&limit=${limit}`
   );
-  
+
   if (!response.ok) {
     throw new Error('Failed to fetch monitor history');
   }

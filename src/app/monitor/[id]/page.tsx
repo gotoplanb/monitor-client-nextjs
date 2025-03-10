@@ -13,14 +13,14 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
     const id = parseInt(resolvedParams.id, 10);
     const page = parseInt(searchParams.page || '1', 10);
     const limit = 10;
-    
+
     if (isNaN(id)) {
       notFound();
     }
 
     const [monitor, history] = await Promise.all([
       fetchMonitor(id),
-      fetchMonitorHistory(id, page, limit)
+      fetchMonitorHistory(id, page, limit),
     ]);
 
     const stateColors = {
@@ -31,13 +31,10 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
 
     return (
       <main className="container mx-auto px-4 py-8">
-        <Link
-          href="/"
-          className="inline-flex items-center mb-6 text-blue-600 hover:text-blue-800"
-        >
+        <Link href="/" className="inline-flex items-center mb-6 text-blue-600 hover:text-blue-800">
           ← Back to monitors
         </Link>
-        
+
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-start mb-4">
             <h1 className="text-3xl font-bold">{monitor.name}</h1>
@@ -57,11 +54,8 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
             <div>
               <h2 className="text-lg font-semibold mb-2">Tags</h2>
               <div className="flex gap-2">
-                {monitor.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-100 px-3 py-1 rounded-full text-sm"
-                  >
+                {monitor.tags.map(tag => (
+                  <span key={tag} className="bg-gray-100 px-3 py-1 rounded-full text-sm">
                     {tag}
                   </span>
                 ))}
@@ -112,4 +106,4 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
   } catch (error) {
     notFound();
   }
-} 
+}
