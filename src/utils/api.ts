@@ -13,7 +13,7 @@ export async function fetchMonitors(): Promise<Monitor[]> {
     throw new Error('API_BASE_URL environment variable is not set');
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1/monitors/statuses/`);
+  const response = await fetch(`${API_BASE_URL}/api/v1/monitor/statuses/`);
   if (!response.ok) {
     throw new Error('Failed to fetch monitors');
   }
@@ -30,7 +30,7 @@ export async function fetchMonitor(id: number): Promise<Monitor> {
     throw new Error('API_BASE_URL environment variable is not set');
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1/monitors/${id}/state/`);
+  const response = await fetch(`${API_BASE_URL}/api/v1/monitor/${id}/state/`);
   if (!response.ok) {
     throw new Error('Failed to fetch monitor');
   }
@@ -47,7 +47,7 @@ export async function fetchMonitorHistory(
   }
 
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/monitors/${id}/history/?skip=${skip}&limit=${limit}`
+    `${API_BASE_URL}/api/v1/monitor/${id}/history/?skip=${skip}&limit=${limit}`
   );
 
   if (!response.ok) {
