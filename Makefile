@@ -41,7 +41,7 @@ build: setup
 start: build
 	npm run start
 
-ci: format-check lint-ci test-all
+ci: format format-check lint-ci test-all
 
 clean:
 	rm -rf .next
