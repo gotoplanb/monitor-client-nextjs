@@ -17,12 +17,7 @@ export async function fetchMonitors(): Promise<Monitor[]> {
   if (!response.ok) {
     throw new Error('Failed to fetch monitors');
   }
-  const monitors = await response.json();
-  // Add numeric IDs based on array position
-  return monitors.map((monitor, index) => ({
-    ...monitor,
-    id: index + 1,
-  }));
+  return response.json();
 }
 
 export async function fetchMonitor(id: number): Promise<Monitor> {
@@ -41,7 +36,7 @@ export async function fetchMonitorHistory(
   id: number,
   skip: number = 0,
   limit: number = 10
-): Promise<{ items: Monitor[], total: number }> {
+): Promise<{ items: Monitor[]; total: number }> {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL environment variable is not set');
   }

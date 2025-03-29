@@ -30,6 +30,7 @@
 ## Testing Guidelines
 
 ### Unit Tests
+
 - Use Jest and React Testing Library
 - Test component rendering and interactions
 - Mock API calls using MSW or jest.mock
@@ -37,6 +38,7 @@
 - Follow AAA pattern (Arrange, Act, Assert)
 
 ### E2E Tests (Playwright)
+
 - Test complete user flows
 - Validate critical paths: monitor list → detail → pagination
 - Use page object model pattern

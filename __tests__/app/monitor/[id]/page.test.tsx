@@ -7,25 +7,25 @@ const mockMonitor = {
   name: 'API Server',
   state: 'Normal',
   timestamp: '2023-09-01T12:00:00Z',
-  tags: ['api', 'production']
+  tags: ['api', 'production'],
 };
 
 const mockHistory = [
   {
     id: 1,
     state: 'Normal',
-    timestamp: '2023-09-01T12:00:00Z'
+    timestamp: '2023-09-01T12:00:00Z',
   },
   {
     id: 1,
     state: 'Warning',
-    timestamp: '2023-09-01T11:00:00Z'
+    timestamp: '2023-09-01T11:00:00Z',
   },
   {
     id: 1,
     state: 'Normal',
-    timestamp: '2023-09-01T10:00:00Z'
-  }
+    timestamp: '2023-09-01T10:00:00Z',
+  },
 ];
 
 // Create a mock detail page component
@@ -59,7 +59,7 @@ const MonitorPage = ({ params }: { params: { id: string } }) => {
     <div data-testid="monitor-details">
       <h1>{monitor.name}</h1>
       <div data-testid="monitor-state">{monitor.state}</div>
-      
+
       <h2>History</h2>
       <div data-testid="history-title">History</div>
       {history.map((item, index) => (
@@ -111,7 +111,7 @@ describe('Monitor Detail Page', () => {
     // Check for history items
     const historyItems = screen.getAllByTestId('history-item');
     expect(historyItems.length).toBe(3);
-    
+
     // Check for Warning state in history
     expect(screen.getByText('Warning')).toBeInTheDocument();
   });

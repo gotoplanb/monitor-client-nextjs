@@ -4,7 +4,7 @@ import { monitors, monitorHistory } from '../mocks/handlers';
 // Mock the API module with a fake implementation
 jest.mock('@/utils/api', () => {
   const originalModule = jest.requireActual('@/utils/api');
-  
+
   return {
     ...originalModule,
     fetchMonitors: jest.fn(),
@@ -61,9 +61,9 @@ describe('API utility functions', () => {
     it('fetches monitor history with pagination', async () => {
       const historyResponse = {
         items: monitorHistory.slice(0, 2),
-        total: monitorHistory.length
+        total: monitorHistory.length,
       };
-      
+
       // Setup the mock implementation for this test
       (api.fetchMonitorHistory as jest.Mock).mockResolvedValueOnce(historyResponse);
 

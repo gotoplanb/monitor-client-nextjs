@@ -46,9 +46,7 @@ const HomePage = () => {
       <h1>Monitors</h1>
       <div>
         {monitors.map(monitor => (
-          <div key={monitor.id}>
-            {monitor.name}
-          </div>
+          <div key={monitor.id}>{monitor.name}</div>
         ))}
       </div>
     </div>
@@ -94,12 +92,12 @@ describe('Home Page', () => {
 
   it('renders the page title correctly', async () => {
     render(<HomePage />);
-    
+
     // Wait for component to load
     await waitFor(() => {
       expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument();
     });
-    
+
     // Then check for the title
     expect(screen.getByText('Monitors')).toBeInTheDocument();
   });

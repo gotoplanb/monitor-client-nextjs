@@ -26,8 +26,10 @@ const MonitorCard = ({ monitor }: MonitorCardProps) => {
     <Link href={`/monitor/${monitor.id}`} className="block" data-testid="monitor-card">
       <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start">
-          <h3 className="font-medium text-lg" data-testid="monitor-name">{monitor.name}</h3>
-          <span 
+          <h3 className="font-medium text-lg" data-testid="monitor-name">
+            {monitor.name}
+          </h3>
+          <span
             className={`px-2 py-1 rounded-full text-sm ${getStateColors(monitor.state)}`}
             data-testid="monitor-state"
           >
@@ -38,8 +40,8 @@ const MonitorCard = ({ monitor }: MonitorCardProps) => {
           <p>Last updated: {new Date(monitor.timestamp).toLocaleString()}</p>
           <div className="mt-1 flex gap-1">
             {monitor.tags.map(tag => (
-              <span 
-                key={tag} 
+              <span
+                key={tag}
                 className="bg-gray-100 px-2 py-1 rounded-full text-xs"
                 data-testid="monitor-tag"
               >
