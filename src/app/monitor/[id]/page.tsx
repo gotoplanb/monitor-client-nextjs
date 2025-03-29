@@ -7,6 +7,9 @@ interface PageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
+// Make this a dynamic route
+export const dynamic = 'force-dynamic';
+
 export default async function MonitorDetailPage({ params, searchParams }: PageProps) {
   try {
     const [resolvedParams, resolvedSearchParams] = await Promise.all([params, searchParams]);
