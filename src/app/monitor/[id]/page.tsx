@@ -4,14 +4,14 @@ import { notFound } from 'next/navigation';
 
 interface PageProps {
   params: Promise<{ id: string }>;
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 export default async function MonitorDetailPage({ params, searchParams }: PageProps) {
   try {
-    const resolvedParams = await params;
+    const [resolvedParams, resolvedSearchParams] = await Promise.all([params, searchParams]);
     const id = parseInt(resolvedParams.id, 10);
-    const page = parseInt(searchParams.page || '1', 10);
+    const page = parseInt(resolvedSearchParams.page || '1', 10);
     const limit = 10;
 
     if (isNaN(id)) {
@@ -22,6 +22,10 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
       fetchMonitor(id),
       fetchMonitorHistory(id, page, limit),
     ]);
+
+    if (!monitor) {
+      notFound();
+    }
 
     const stateColors = {
       Normal: 'bg-green-100 text-green-800',
@@ -65,45 +69,47 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
             <div>
               <h2 className="text-lg font-semibold mb-4">Status History</h2>
               <div className="space-y-2">
-                {history.map((record, index) => (
+                {history?.items?.map(record => (
                   <div
-                    key={index}
-                    className="flex justify-between items-center p-3 bg-gray-50 rounded"
+                    key={record.timestamp}
+                    className="flex justify-between items-center p-2 bg-gray-50 rounded"
                   >
-                    <span className={`px-2 py-1 rounded-full text-sm ${stateColors[record.state]}`}>
+                    <span>{new Date(record.timestamp).toLocaleString()}</span>
+                    <span className={`px-2 py-1 rounded text-sm ${stateColors[record.state]}`}>
                       {record.state}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {new Date(record.timestamp).toLocaleString()}
                     </span>
                   </div>
                 ))}
               </div>
-
-              <div className="mt-4 flex justify-center gap-2">
-                {page > 1 && (
-                  <Link
-                    href={`/monitor/${id}?page=${page - 1}`}
-                    className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                  >
-                    Previous
-                  </Link>
-                )}
-                {history.length === limit && (
-                  <Link
-                    href={`/monitor/${id}?page=${page + 1}`}
-                    className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
-                  >
-                    Next
-                  </Link>
-                )}
-              </div>
+              {!history?.items ||
+                (history.items.length === 0 && (
+                  <p className="text-gray-500">No history records found</p>
+                ))}
+              {page > 1 && (
+                <Link
+                  href={`/monitor/${id}?page=${page - 1}`}
+                  className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                >
+                  Previous
+                </Link>
+              )}
+              {history?.items?.length === limit && (
+                <Link
+                  href={`/monitor/${id}?page=${page + 1}`}
+                  className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
+                >
+                  Next
+                </Link>
+              )}
             </div>
           </div>
         </div>
       </main>
     );
   } catch (error) {
-    notFound();
+    if (error instanceof Error && error.message.includes('not found')) {
+      notFound();
+    }
+    throw error;
   }
 }
