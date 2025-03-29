@@ -2,6 +2,13 @@
 
 A modern web client for the Monitors API built with Next.js, React, and TypeScript.
 
+## Production
+
+1. Deploy the monitor-api server somewhere
+2. Create a Vercel project attached to monitor-client-nextjs
+3. Add the monitor-api base URL as env var to Vercel
+4. Trigger Vercel deploy
+
 ## Development
 
 ```bash
