@@ -22,7 +22,7 @@ export default async function HomePage() {
     return (
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-6">System Monitors</h1>
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+        <div className="bg-error-50 border border-error-200 text-error-700 px-4 py-3 rounded">
           <p>Unable to load monitors. Please try again later.</p>
         </div>
       </main>

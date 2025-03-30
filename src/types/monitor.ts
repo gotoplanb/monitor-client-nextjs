@@ -1,5 +1,5 @@
 export interface Monitor {
-  id?: number; // Used internally for API calls
+  id: number;
   name: string;
   state: 'Normal' | 'Warning' | 'Error' | 'Missing Data';
   timestamp: string;

@@ -36,7 +36,7 @@ export async function fetchMonitorHistory(
   id: number,
   skip: number = 0,
   limit: number = 10
-): Promise<{ items: Monitor[]; total: number }> {
+): Promise<Monitor[]> {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL environment variable is not set');
   }

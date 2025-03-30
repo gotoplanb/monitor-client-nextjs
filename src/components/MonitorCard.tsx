@@ -10,27 +10,27 @@ const MonitorCard = ({ monitor }: MonitorCardProps) => {
   const getStateColors = (state: string) => {
     switch (state) {
       case 'Normal':
-        return 'bg-green-100 text-green-800';
+        return 'bg-success-100 text-success-700 border border-success-200';
       case 'Warning':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning-100 text-warning-700 border border-warning-200';
       case 'Error':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-error-700 border border-error-200';
       case 'Missing Data':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-700 border border-gray-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-700 border border-gray-200';
     }
   };
 
   return (
     <Link href={`/monitor/${monitor.id}`} className="block" data-testid="monitor-card">
-      <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+      <div className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow bg-white">
         <div className="flex justify-between items-start">
-          <h3 className="font-medium text-lg" data-testid="monitor-name">
+          <h3 className="font-medium text-lg text-gray-900" data-testid="monitor-name">
             {monitor.name}
           </h3>
           <span
-            className={`px-2 py-1 rounded-full text-sm ${getStateColors(monitor.state)}`}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${getStateColors(monitor.state)}`}
             data-testid="monitor-state"
           >
             {monitor.state}
@@ -42,7 +42,7 @@ const MonitorCard = ({ monitor }: MonitorCardProps) => {
             {monitor.tags.map(tag => (
               <span
                 key={tag}
-                className="bg-gray-100 px-2 py-1 rounded-full text-xs"
+                className="bg-primary-100 px-2 py-1 rounded-full text-xs text-primary-700 border border-primary-200"
                 data-testid="monitor-tag"
               >
                 {tag}
