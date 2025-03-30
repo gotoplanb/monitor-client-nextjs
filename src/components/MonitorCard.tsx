@@ -38,6 +38,11 @@ const MonitorCard = ({ monitor }: MonitorCardProps) => {
         </div>
         <div className="mt-2 text-sm text-gray-600">
           <p>Last updated: {new Date(monitor.timestamp).toLocaleString()}</p>
+          {monitor.message && (
+            <p className="mt-1 text-gray-800 font-medium" data-testid="monitor-message">
+              {monitor.message}
+            </p>
+          )}
           <div className="mt-1 flex gap-1">
             {monitor.tags.map(tag => (
               <span

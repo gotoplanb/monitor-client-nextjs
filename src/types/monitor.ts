@@ -4,4 +4,5 @@ export interface Monitor {
   state: 'Normal' | 'Warning' | 'Error' | 'Missing Data';
   timestamp: string;
   tags: string[];
+  message?: string;
 }

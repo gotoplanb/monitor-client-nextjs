@@ -45,7 +45,10 @@ const MonitorDetail = ({ monitor, history }: MonitorDetailProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6" data-testid="monitor-detail">
+    <div
+      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+      data-testid="monitor-detail"
+    >
       <div className="flex justify-between items-start mb-6">
         <div>
           <h1 className="text-2xl font-bold text-black mb-2" data-testid="monitor-name">
@@ -54,6 +57,11 @@ const MonitorDetail = ({ monitor, history }: MonitorDetailProps) => {
           <p className="text-gray-800 font-medium">
             Last updated {formatTimeAgo(monitor.timestamp)}
           </p>
+          {monitor.message && (
+            <p className="mt-2 text-gray-800" data-testid="monitor-message">
+              {monitor.message}
+            </p>
+          )}
         </div>
         <span
           className={`px-4 py-2 rounded-full text-sm font-semibold ${getStateColors(monitor.state)}`}
@@ -84,7 +92,9 @@ const MonitorDetail = ({ monitor, history }: MonitorDetailProps) => {
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
               <dt className="text-sm font-medium text-gray-800">ID</dt>
-              <dd className="mt-1 text-base font-semibold text-black" data-testid="monitor-id">{monitor.id}</dd>
+              <dd className="mt-1 text-base font-semibold text-black" data-testid="monitor-id">
+                {monitor.id}
+              </dd>
             </div>
             <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
               <dt className="text-sm font-medium text-gray-800">Last Check</dt>
@@ -101,17 +111,27 @@ const MonitorDetail = ({ monitor, history }: MonitorDetailProps) => {
             {history?.map(record => (
               <div
                 key={record.timestamp}
-                className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200"
+                className="flex justify-between items-start p-3 bg-gray-50 rounded-lg border border-gray-200"
               >
-                <span className="text-gray-800">{new Date(record.timestamp).toLocaleString()}</span>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStateColors(record.state)}`}>
+                <div>
+                  <span className="text-gray-800">
+                    {new Date(record.timestamp).toLocaleString()}
+                  </span>
+                  {record.message && (
+                    <p className="mt-1 text-gray-800" data-testid="history-message">
+                      {record.message}
+                    </p>
+                  )}
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${getStateColors(record.state)}`}
+                >
                   {record.state}
                 </span>
               </div>
             ))}
-            {!history || history.length === 0 && (
-              <p className="text-gray-600">No history records found</p>
-            )}
+            {!history ||
+              (history.length === 0 && <p className="text-gray-600">No history records found</p>)}
           </div>
         </div>
       </div>
@@ -119,4 +139,4 @@ const MonitorDetail = ({ monitor, history }: MonitorDetailProps) => {
   );
 };
 
-export default MonitorDetail; 
+export default MonitorDetail;

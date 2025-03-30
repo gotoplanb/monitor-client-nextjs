@@ -34,7 +34,10 @@ export default async function MonitorDetailPage({ params, searchParams }: PagePr
 
     return (
       <main className="container mx-auto px-4 py-8">
-        <Link href="/" className="inline-flex items-center mb-6 text-primary-600 hover:text-primary-800">
+        <Link
+          href="/"
+          className="inline-flex items-center mb-6 text-primary-600 hover:text-primary-800"
+        >
           ← Back to monitors
         </Link>
 

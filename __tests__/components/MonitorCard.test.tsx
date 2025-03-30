@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import MonitorCard from '@/components/MonitorCard';
 import { Monitor } from '@/types/monitor';
 
@@ -50,24 +51,24 @@ describe('MonitorCard', () => {
     render(<MonitorCard monitor={mockMonitors.normal} />);
     const stateElement = screen.getByText('Normal');
     expect(stateElement).toBeInTheDocument();
-    expect(stateElement).toHaveClass('bg-green-100');
-    expect(stateElement).toHaveClass('text-green-800');
+    expect(stateElement).toHaveClass('bg-success-100');
+    expect(stateElement).toHaveClass('text-success-700');
   });
 
   it('renders Warning state with correct styling', () => {
     render(<MonitorCard monitor={mockMonitors.warning} />);
     const stateElement = screen.getByText('Warning');
     expect(stateElement).toBeInTheDocument();
-    expect(stateElement).toHaveClass('bg-yellow-100');
-    expect(stateElement).toHaveClass('text-yellow-800');
+    expect(stateElement).toHaveClass('bg-warning-100');
+    expect(stateElement).toHaveClass('text-warning-700');
   });
 
   it('renders Error state with correct styling', () => {
     render(<MonitorCard monitor={mockMonitors.error} />);
     const stateElement = screen.getByText('Error');
     expect(stateElement).toBeInTheDocument();
-    expect(stateElement).toHaveClass('bg-red-100');
-    expect(stateElement).toHaveClass('text-red-800');
+    expect(stateElement).toHaveClass('bg-error-100');
+    expect(stateElement).toHaveClass('text-error-700');
   });
 
   it('renders Missing Data state with correct styling', () => {
@@ -75,7 +76,7 @@ describe('MonitorCard', () => {
     const stateElement = screen.getByText('Missing Data');
     expect(stateElement).toBeInTheDocument();
     expect(stateElement).toHaveClass('bg-gray-100');
-    expect(stateElement).toHaveClass('text-gray-800');
+    expect(stateElement).toHaveClass('text-gray-700');
   });
 
   it('renders timestamp correctly', () => {
@@ -88,5 +89,14 @@ describe('MonitorCard', () => {
     render(<MonitorCard monitor={mockMonitors.normal} />);
     expect(screen.getByText('api')).toBeInTheDocument();
     expect(screen.getByText('production')).toBeInTheDocument();
+  });
+
+  it('renders message when present', () => {
+    const monitorWithMessage = {
+      ...mockMonitors.normal,
+      message: 'Test message',
+    };
+    render(<MonitorCard monitor={monitorWithMessage} />);
+    expect(screen.getByText('Test message')).toBeInTheDocument();
   });
 });
