@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Monitor } from '@/types/monitor';
 import MonitorCard from './MonitorCard';
 import SearchBar from './SearchBar';
@@ -9,8 +9,13 @@ interface MonitorsGridProps {
   initialMonitors: Monitor[];
 }
 
-const MonitorsGrid = ({ initialMonitors }: MonitorsGridProps) => {
-  const [filteredMonitors, setFilteredMonitors] = useState(initialMonitors);
+const MonitorsGrid = ({ initialMonitors = [] }: MonitorsGridProps) => {
+  const [filteredMonitors, setFilteredMonitors] = useState<Monitor[]>([]);
+
+  // Update filtered monitors when initialMonitors changes
+  useEffect(() => {
+    setFilteredMonitors(initialMonitors);
+  }, [initialMonitors]);
 
   return (
     <>
