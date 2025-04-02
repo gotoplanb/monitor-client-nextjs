@@ -1,5 +1,5 @@
 import { fetchMonitors } from '../utils/api';
-import MonitorCard from '../components/MonitorCard';
+import MonitorsGrid from '../components/MonitorsGrid';
 
 // Make this a dynamic route
 export const dynamic = 'force-dynamic';
@@ -11,11 +11,7 @@ export default async function HomePage() {
     return (
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-6">System Monitors</h1>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {monitors.map(monitor => (
-            <MonitorCard key={monitor.name} monitor={monitor} />
-          ))}
-        </div>
+        <MonitorsGrid initialMonitors={monitors} />
       </main>
     );
   } catch (error) {
